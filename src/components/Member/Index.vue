@@ -17,7 +17,7 @@
                                             </span>
                                             <span class="text">Tambah</span>
                                         </router-link>
-                                        <table class="table table-bordered mt-3" width="100%" cellspacing="0">
+                                        <table class="table table-striped table-bordered mt-3" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -83,14 +83,41 @@ export default {
     }, 
     methods : {
         hapus(id) {
-        this.axios.delete(`http://localhost/projek_laundry/public/api/member/${id}`,
-                        {
-                            headers : {Authorization : 'Bearer' + this.$store.state.token}
+            this.$swal.fire({
+                    title : 'Anda yakin ingin menghapus data?',
+                    icon : 'warning',
+                    showCancelButton : true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal'
+                }).then((res) => {
+                    if(res.value) {
+                        this.axios.delete(`http://localhost/projek_laundry/public/api/member/${id}`,
+                            {
+                                headers :  {'Authorization' : 'Bearer' + this.$store.state.token}
+                            })
+                        .then((res) => {
+                            if(res.data.success) {
+                                let i = this.member.map(item => item.id).indexOf(id);
+                                this.member.splice(i, 1)
+                                this.$swal("Sukses", res.data.message, "success")
+                            }             
                         })
-                    .then(() => {
-                        let i = this.member.map(item => item.id).indexOf(id)
-                        this.member.splice(i, 1)
-                    })
+                        .catch(() => {
+                            this.$swal("Gagal", "Gagal Menghapus data member", "error")
+                        })
+                    }
+                })
+            // this.axios.delete(`http://localhost/projek_laundry/public/api/member/${id}`, {
+            //         headers : {Authorization : 'Bearer' + this.$store.state.token}
+            //     })
+            //     .then( () => {
+            //         let i = this.member.map(item => item.id).indexOf(id);
+            //         this.member.splice(i, 1)
+            //     })
+            //     .catch(err => console.log(err))
+        
         }
     }
 }

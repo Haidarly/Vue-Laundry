@@ -18,13 +18,15 @@
                                             </span>
                                             <span class="text">Tambah</span>
                                         </router-link>
-                                        <table class="table table-bordered mt-3" width="100%" cellspacing="0">
+                                        <table class="table table-striped table-bordered mt-3" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Nama Member</th>
                                                     <th>Tanggal Order</th>
+                                                    <th>Batas Waktu</th>
                                                     <th>Status</th>
+                                                    <th>Petugas</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -33,12 +35,14 @@
                                                     <td>{{ index + 1}}</td>
                                                     <td>{{ t.nama }}</td>
                                                     <td>{{ t.tgl_order | moment("DD/MM/YYYY") }}</td>
+                                                    <td>{{ t.batas_waktu | moment("DD/MM/YYYY") }}</td>
                                                     <td>
                                                         <span v-if="t.status == 'baru'" class="badge bg-info text-light">Baru</span>
                                                         <span v-if="t.status == 'proses'" class="badge bg-warning text-dark">Proses</span>
                                                         <span v-if="t.status == 'selesai'" class="badge bg-success text-light">Selesai</span>
                                                         <span v-if="t.status == 'diambil'" class="badge bg-secondary text-light">Diambil</span>
                                                     </td>
+                                                    <td>{{ t.name }}</td>
                                                     <td>
                                                         <router-link :to="{ name : 'detailtransaksi' , params : { id : t.id }}" class="btn btn-success btn-circle mr-1">
                                                             <i class="far fa-eye"></i>
@@ -84,6 +88,7 @@ export default {
                         })
                     .then(res => {
                         this.transaksi = res.data.data
+                        // console.log(res.data)
                     })
                     .catch(err => console.log(err))
     },

@@ -18,7 +18,7 @@
                                             </span>
                                             <span class="text">Tambah</span>
                                         </router-link>
-                                        <table class="table table-bordered mt-3" width="100%" cellspacing="0">
+                                        <table class="table table-striped table-bordered mt-3" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>

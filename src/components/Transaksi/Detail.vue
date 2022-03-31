@@ -44,6 +44,66 @@
                             </div>
                         </div>
                     </div>
+                    <!-- <div class="col">
+                    <button :disabled="disableStruk"
+                        type="button"
+                        class="btn btn-sm btn-info btn-icon-split mb-3"
+                        @click="generateReport"
+                    >
+                        <span class="icon text-white-50">
+                        <i class="fas fa-print"></i>
+                        </span>
+                        <span class="text">Cetak Struk</span>
+                    </button>
+                    </div>
+                    <div class="col-md-6 align-items-center">
+                        <VueHtml2pdf
+                        :show-layout="true"
+                        :float-layout="false"
+                        :enable-download="false"
+                        :preview-modal="true"
+                        :paginate-elements-by-height="1400"
+                        filename="report_transaksi"
+                        :pdf-quality="2"
+                        :manual-pagination="false"
+                        pdf-format="a4"
+                        pdf-orientation="portrait"
+                        pdf-content-width="800px"
+                        ref="html2Pdf">
+                        <section slot="pdf-content">
+                            <div class="report text-center">
+                            <hr>
+                            <h1 class="h1 font-weight-bold mb-0 text-gray-900">Struk Transaksi</h1>
+                            <h3 class="h3 mb-0 text-gray-800">Laundry Online</h3>
+                            <h5 class="h5 mb-0 text-gray-800">Jl. Dr. Wahidin No 86, Balung</h5>
+                            </div>
+                            <table class="table" cellspacing="0">
+                            <thead>
+                                <tr>
+                                <th>No.</th>
+                                <th>Jenis</th>
+                                <th>Jumlah</th>
+                                <th>Harga</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(m, index) in detail" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ m.jenis }}</td>
+                                <td>{{ m.quantity }}</td>
+                                <td>{{ m.subtotal }}</td>
+                                </tr>
+                                <tr v-if="total != ''">
+                                <td colspan="3" class="text-right">Total</td>
+                                <td>
+                                    <h6 class="font-weight-bold">Rp {{ total }}</h6>
+                                </td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </section>
+                        </VueHtml2pdf>
+                    </div> -->
                     <div class="row mt-3">
                         <div class="col">
                             <div class="card shadow mb-4">
@@ -94,11 +154,15 @@ export default {
         return {
             id_transaksi : this.$route.params.id,
             transaksi : {},
+            outlet : {},
             detail : {},
             total : ''
         }
     },
     created() {
+        var data_o = JSON.parse(this.$store.state.dataoutlet)
+        this.outlet = data_o
+
         var data = JSON.parse(this.$store.state.datauser)
         var role = data.role
 
@@ -125,6 +189,13 @@ export default {
     computed : {
         disableStatus() {
             if(this.transaksi.status == 'selesai' || this.transaksi.status == 'diambil' || this.detail.length == 0) {
+                return true
+            } else {
+                return false
+            }
+        },
+        disableStruk() {
+            if(this.transaksi.status == 'baru' || this.transaksi.status == 'proses' || this.transaksi.status == 'selesai') {
                 return true
             } else {
                 return false

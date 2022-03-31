@@ -1,6 +1,6 @@
 <template>
     <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <router-link to="/" class="sidebar-brand d-flex align-items-center justify-content-center">

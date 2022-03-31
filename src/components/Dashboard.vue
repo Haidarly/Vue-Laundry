@@ -7,8 +7,27 @@
 
                 <div class="container-fluid">
                     <h1>Dashboard</h1>
-                    <h1 class="h3 mb-4 text-gray-800">Selamat datang, {{nama}}</h1>
+                    <!-- <h1 class="h3 mb-4 text-gray-800">Selamat datang, {{nama}}</h1> -->
+                    <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <div class="card shadow mb-4 d-none d-lg-block">
+                                <div class="card-header py-3">
+                                    <h6 class="m-1 font-weight-bold text-primary text-center">Selamat Datang</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="align-items-center text-center">
+                                        <img class="img-profile rounded-circle" src="@/assets/image/profile.jpg" width="50%">
+                                        <h6 class="m-4 font-weight-bold text-primary">Haidar</h6>
+                                        <hr>
+                                        <div class="row">
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="row">
                         <div class="col-xl-3 col-md-6 mb-4" v-if="isAdmin || isOwner">
                             <div class="card border-left-secondary shadow h-100 py-2">

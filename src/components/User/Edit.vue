@@ -16,7 +16,7 @@
                                     <form @submit.prevent="edit">
                                         <div class="form-group">
                                             <label>Nama</label>
-                                            <input type="text" class="form-control" v-model="user.nama">
+                                            <input type="text" class="form-control" v-model="user.name">
                                         </div>
                                         <div class="form-group">
                                             <label>Username</label>

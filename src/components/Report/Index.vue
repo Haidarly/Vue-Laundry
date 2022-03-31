@@ -11,7 +11,7 @@
                             <h6 class="m-0 font-weight-bold text-primary">Cetak Report Transaksi</h6>
                         </div>
                         <div class="card-body">
-                            <form class="form-group" @submit.prevent="tampil">
+                            <form class="form-group">
                                 <label>Bulan</label>
                                 <select class="form-control" v-model="report.bulan">
                                     <option value="01">Januari</option>
@@ -33,7 +33,7 @@
                                     <option value="2021">2021</option>
                                     <option value="2022">2022</option>
                                 </select>
-                                <button type="submit" class="btn btn-sm btn-info">Tampilkan</button>
+                                <button type="button" class="btn btn-sm btn-info" @click="tampil">Tampilkan</button>
                             </form>
                             <div class="report">
                                 <VueHtml2pdf
@@ -52,8 +52,8 @@
                                 >
                                     <section slot="pdf-content">
                                         <h1>Report Transaksi</h1>
-                                        <h3>Laundry Online</h3>
-                                        <h5>Jalan Danau Ranau No. 1, Malang</h5>
+                                        <h3>{{ outlet.nama_outlet }}</h3>
+                                        <h5>{{ outlet.alamat }}</h5>
                                         <table>
                                             <thead>
                                                 <tr>
@@ -62,6 +62,7 @@
                                                     <th>Tanggal Transaksi</th>
                                                     <th>Tanggal Pembayaran</th>
                                                     <th>Nominal Pembayaran</th>
+                                                    <th>Petugas</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -69,8 +70,11 @@
                                                     <td>{{ index + 1 }}</td>
                                                     <td>{{ t.nama }}</td>
                                                     <td>{{ t.tgl_order | moment("DD/MM/YYYY") }}</td>
-                                                    <td>{{ t.tgl_bayar | moment("DD/MM/YYYY") }}</td>
-                                                    <td>Rp {{ t.total_bayar }}</td>
+                                                    <td v-if="t.tgl_bayar == null"> - </td>
+                                                    <td v-else>{{ t.tgl_bayar | moment("DD/MM/YYYY") }}</td>
+                                                    <td v-if="t.total_bayar == null"> - </td>
+                                                    <td v-else>Rp {{ t.total_bayar }}</td>
+                                                    <td>{{ t.name }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -145,10 +149,14 @@ export default {
     data() {
         return {
             report : {},
-            transaksi : {}
+            transaksi : {},
+            outlet : {}
         }
     },
     created() {
+        var data = JSON.parse(this.$store.state.dataoutlet)
+        this.outlet = data
+
         var date = new Date()
         this.report.tahun = date.getFullYear()
         this.report.bulan = ("0" + (date.getMonth() + 1)).slice(-2)
